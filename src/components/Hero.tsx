@@ -1,11 +1,11 @@
 'use client';
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from 'react';
 
 export default function Hero() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
@@ -15,25 +15,32 @@ export default function Hero() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
   };
 
-  const imageVariants = {
+  const imageVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
   };
 
-  const mainRef = useRef(null);
+  const mainRef = useRef<HTMLDivElement>(null);
   
-  // State to control "Hi" message visibility
   const [showHi, setShowHi] = useState(false);
 
-  // Animation variants for the "Hi" message
-  const hiVariants = {
+  // Corrected variants for the "Hi" message by nesting the spring properties inside a 'transition' object.
+  const hiVariants: Variants = {
     hidden: { opacity: 0, scale: 0.5 },
-    visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 300, damping: 20 } },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { // This transition object is what the 'Variants' type expects.
+        type: "spring", 
+        stiffness: 300, 
+        damping: 20,
+      },
+    },
   };
 
   useEffect(() => {

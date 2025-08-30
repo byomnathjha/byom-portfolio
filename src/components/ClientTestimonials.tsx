@@ -96,7 +96,7 @@ const ClientTestimonials = () => {
     <div className={`${testimonial.bgColor} ${testimonial.borderColor} rounded-3xl p-8 border-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[320px] h-[280px] flex flex-col justify-between`}>
       {/* Star Rating */}
       <div className="flex gap-1 mb-4">
-        {[...Array(testimonial.rating)].map((_, i) => (
+        {[...Array(testimonial.rating)].map((_: undefined, i: number) => (
           <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
         ))}
       </div>
@@ -110,7 +110,7 @@ const ClientTestimonials = () => {
       <div className="flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center overflow-hidden shadow-md">
           <div className="text-white font-bold text-lg">
-            {testimonial.name.split(' ').map(n => n[0]).join('')}
+            {testimonial.name.split(' ').map((n: string) => n[0]).join('')}
           </div>
         </div>
         <div>

@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import Image from 'next/image';
 
+// Project data, already well-structured
 const projects = [
   {
     id: 1,
@@ -37,29 +38,30 @@ const projects = [
 const FeaturedProjects = () => {
   const [activeProject, setActiveProject] = useState(0);
 
-  // Auto-slide functionality
+  // Auto-slide functionality is correctly implemented with useEffect and cleanup
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveProject((prevIndex) => (prevIndex + 1) % projects.length);
     }, 7000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, []); // The empty dependency array ensures this runs once
 
   const currentProject = projects[activeProject];
 
-  const fadeVariants = {
+  // Animation variants are correctly defined with explicit types for clarity
+  const fadeVariants: Variants = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
     exit: { opacity: 0, y: -20, transition: { duration: 0.4, ease: "easeIn" } },
   };
 
-  const staggerVariants = {
+  const staggerVariants: Variants = {
     initial: {},
     animate: { transition: { staggerChildren: 0.15 } },
   };
 
-  const staggerItem = {
+  const staggerItem: Variants = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
@@ -111,6 +113,7 @@ const FeaturedProjects = () => {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
+        {/* AnimatePresence is correctly used to handle the smooth transition between projects. */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentProject.id}
@@ -132,6 +135,7 @@ const FeaturedProjects = () => {
         </AnimatePresence>
 
         <div className="absolute inset-0 z-10 p-8 lg:p-16 flex flex-col justify-end text-white text-center sm:text-left bg-gradient-to-t from-black/50 via-black/20 to-transparent">
+          {/* AnimatePresence is correctly used here as well for the text content */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProject.id}

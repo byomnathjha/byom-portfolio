@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation, Variants } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
@@ -38,17 +38,17 @@ export default function Navbar() {
     { name: 'Blogs', href: '#blogs' },
   ];
 
-  const menuVariants = {
+  const menuVariants: Variants = {
     closed: { x: '100%', transition: { type: 'spring', stiffness: 400, damping: 40 } },
-    open: { x: 0, transition: { type: 'spring', stiffness: 400, damping: 40, delayChildren: 0.2 } },
+    open: { x: 0, transition: { type: 'spring', stiffness: 400, damping: 40, delayChildren: 0.2, staggerChildren: 0.1 } },
   };
 
-  const linkVariants = {
+  const linkVariants: Variants = {
     closed: { y: 50, opacity: 0 },
     open: { y: 0, opacity: 1 },
   };
 
-  const desktopItemVariants = {
+  const desktopItemVariants: Variants = {
     hidden: { opacity: 0, y: -20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
@@ -135,7 +135,13 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <motion.div className="space-y-8" variants={menuVariants} initial="closed" animate="open" exit="closed">
+            <motion.div 
+              className="space-y-8" 
+              variants={menuVariants} 
+              initial="closed" 
+              animate="open" 
+              exit="closed"
+            >
               {navLinks.map((link) => (
                 <motion.div variants={linkVariants} key={link.name}>
                   <Link

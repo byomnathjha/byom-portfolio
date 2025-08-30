@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import { Phone, Mail, Globe } from 'lucide-react';
 
 const About = () => {
-  const containerVariants = {
+  // Explicitly typing variants for better type safety in TypeScript
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
@@ -16,9 +17,17 @@ const About = () => {
     },
   };
 
-  const itemVariants = {
+  // Explicitly typing variants for better type safety in TypeScript
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: 'easeOut' 
+      } 
+    },
   };
 
   return (
@@ -30,7 +39,7 @@ const About = () => {
       </div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left Content */}
+        {/* Left Content with Animations */}
         <motion.div 
           className="space-y-12"
           variants={containerVariants}
@@ -141,7 +150,6 @@ const About = () => {
           transition={{ duration: 1.2, ease: 'easeOut' }}
         >
           <div className="relative bg-gray-200 rounded-3xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
-            {/* Replace this div with a Next.js Image component pointing to your photo */}
             <Image
               src="/widescreen.jpg"
               alt="Byom Nath Jha - Fullstack Engineer"
