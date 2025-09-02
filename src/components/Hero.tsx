@@ -171,6 +171,20 @@ export default function Hero() {
                 <p className="text-sm md:text-lg text-white/90 drop-shadow-lg leading-relaxed max-w-sm mx-auto md:mx-0">
                   I'm a India-based fullstack engineer crafting beautiful, performant web experiences.
                 </p>
+                {/* Resume Download Button */}
+                <motion.a
+                  variants={itemVariants}
+                  href="/resume.pdf" // This is the path to your resume in the public folder
+                  download="Byom_Nath_Jha_Resume.pdf" // This is the suggested file name for the download
+                  className="inline-flex items-center justify-center w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-blue-500 bg-white hover:bg-gray-100 transition-colors duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                  Download Resume
+                </motion.a>
               </motion.div>
             </div>
           </div>
