@@ -45,15 +45,6 @@ function Footer() {
           >
             <Linkedin size={24} />
           </a>
-          <a
-            href="https://twitter.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter Profile"
-            className="text-gray-600 hover:text-blue-500 transition-colors duration-200 transform hover:scale-110"
-          >
-            <Twitter size={24} />
-          </a>
         </div>
       </div>
     </footer>

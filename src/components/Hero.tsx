@@ -1,46 +1,37 @@
 'use client';
 
-import { motion, Variants } from "framer-motion";
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Pure Center Zoom & Fade Animation for the Image
+  const imageScale = useTransform(scrollYProgress, [0, 0.5], [0.5, 1]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
+
+  // Smooth fade and scale for the new premium status badge
+  const badgeScale = useTransform(scrollYProgress, [0.4, 0.6], [0.8, 1]);
+  const badgeOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
-      transition: {
-        staggerChildren: 0.2,
-      }
+      transition: { staggerChildren: 0.2 }
     },
   };
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-  };
-
-  const imageVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
-  };
-
-  const mainRef = useRef<HTMLDivElement>(null);
-  
-  const [showHi, setShowHi] = useState(false);
-
-  // Corrected variants for the "Hi" message by nesting the spring properties inside a 'transition' object.
-  const hiVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.5 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      transition: { // This transition object is what the 'Variants' type expects.
-        type: "spring", 
-        stiffness: 300, 
-        damping: 20,
-      },
-    },
   };
 
   useEffect(() => {
@@ -57,154 +48,97 @@ export default function Hero() {
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize();
-
+    setTimeout(handleResize, 100);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-16 font-sans text-gray-900">
+    <section ref={containerRef} className="relative h-[200vh]">
       
-      {/* Background Video */}
-      <div className="absolute inset-0 z-0">
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/bg.mp4" type="video/mp4" />
-        </video>
-        {/* Video Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/20"></div>
-      </div>
-      
-      {/* Background Gradient & Blob - now over video */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <div className="w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="w-80 h-80 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob-2 absolute bottom-1/4 right-1/3 transform -translate-x-1/2 -translate-y-1/2"></div>
-      </div>
-      
-      {/* Main Hero Content */}
-      <div ref={mainRef} className="relative z-10 flex items-center justify-center min-h-[90vh] px-4 md:px-8">
-        <motion.div 
-          className="w-full max-w-[1400px] mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Three Column Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-12 md:gap-x-16 items-center">
-            
-            {/* Left Column - Name & Title */}
-            <div className="md:col-span-4 flex flex-col justify-center">
-              <motion.div variants={itemVariants} className="space-y-4 md:space-y-6 text-center md:text-left">
-                <p className="text-sm md:text-base text-white/90 drop-shadow-lg font-medium tracking-[0.25em] uppercase">
-                  BYOM NATH JHA
-                </p>
-                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl leading-tight md:leading-[0.9]">
-                  FULLSTACK
-                </h1>
-              </motion.div>
-            </div>
-
-            {/* Center Column - Image with Interactive Elements */}
-            <div className="md:col-span-4 flex justify-center order-first md:order-none">
-              <motion.div 
-                className="relative"
-                variants={imageVariants}
-              >
-                <div className="w-64 h-80 sm:w-80 sm:h-96 bg-gray-200 rounded-[2rem] overflow-hidden shadow-2xl ring-4 ring-white/50">
-                  <Image
-                    src="/byom.jpg"
-                    alt="Byom Nath Jha - Fullstack Engineer"
-                    width={400}
-                    height={500}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Floating Wave Icon with more subtle animation */}
-                <motion.div 
-                  className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl shadow-xl cursor-pointer hover:bg-blue-600 transition-colors"
-                  initial={{ scale: 0 }}
-                  animate={{ 
-                    scale: 1,
-                    rotate: [0, -15, 15, -15, 15, 0]
-                  }}
-                  transition={{ 
-                    scale: { delay: 1.2, type: "spring", stiffness: 200 },
-                    rotate: { delay: 1.8, duration: 1.5, repeat: Infinity, repeatDelay: 3 }
-                  }}
-                  onAnimationComplete={() => setShowHi(true)} 
-                  whileHover={{ 
-                    scale: 1.1,
-                    rotate: 20,
-                    transition: { duration: 0.3 }
-                  }}
-                >
-                  👋
+      <div className="sticky top-0 h-screen w-full overflow-hidden font-sans text-gray-900 flex items-center justify-center pt-16">
+        
+        {/* Clean Background Video & Overlay */}
+        <div className="absolute inset-0 z-0">
+          <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
+            <source src="/bg.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/40"></div> {/* Slightly darkened overlay for better contrast */}
+        </div>
+        
+        {/* Main Hero Content */}
+        <div ref={mainRef} className="relative z-10 flex items-center justify-center w-full max-w-[1400px] mx-auto px-4 md:px-8">
+          <motion.div 
+            className="w-full"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-y-12 md:gap-x-8 lg:gap-x-12 items-center w-full">
+              
+              {/* Left Column - Name & Title */}
+              <div className="md:col-span-4 flex flex-col justify-center min-w-0">
+                <motion.div variants={itemVariants} className="space-y-4 md:space-y-6 text-center md:text-left w-full">
+                  <p className="text-sm md:text-base text-white/90 drop-shadow-lg font-medium tracking-widest uppercase truncate">
+                    BYOM NATH JHA
+                  </p>
+                  <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5rem] font-black text-white drop-shadow-2xl leading-tight md:leading-[0.9] tracking-tight w-full">
+                    FULLSTACK
+                  </h1>
                 </motion.div>
-                
-                {/* Conditionally render and animate the "Hi" message */}
-                {showHi && (
-                  <motion.div
-                    className="absolute -bottom-4 right-0 sm:-bottom-6 sm:right-0 bg-white px-4 py-2 rounded-full shadow-lg text-lg font-bold text-blue-500"
-                    variants={hiVariants}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    Hi!
-                  </motion.div>
-                )}
-              </motion.div>
-            </div>
+              </div>
 
-            {/* Right Column - Title & Description */}
-            <div className="md:col-span-4 flex flex-col justify-center">
-              <motion.div variants={itemVariants} className="space-y-4 md:space-y-6 text-center md:text-left">
-                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl leading-tight md:leading-[0.9]">
-                  ENGINEER
-                </h1>
-                <p className="text-sm md:text-lg text-white/90 drop-shadow-lg leading-relaxed max-w-sm mx-auto md:mx-0">
-                  I'm a India-based fullstack engineer crafting beautiful, performant web experiences.
-                </p>
-                {/* Resume Download Button */}
-                <motion.a
-                  variants={itemVariants}
-                  href="/resume.pdf" // This is the path to your resume in the public folder
-                  download="Byom_Nath_Jha_Resume.pdf" // This is the suggested file name for the download
-                  className="inline-flex items-center justify-center w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-blue-500 bg-white hover:bg-gray-100 transition-colors duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+              {/* Center Column - Pure Zoom & Fade Image */}
+              <div className="md:col-span-4 flex justify-center order-first md:order-none relative z-20">
+                <motion.div 
+                  className="relative"
+                  style={{ 
+                    scale: imageScale, 
+                    opacity: imageOpacity,
+                  }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                  Download Resume
-                </motion.a>
-              </motion.div>
+                  <div className="w-64 h-80 sm:w-80 sm:h-96 bg-gray-200 rounded-[2rem] overflow-hidden shadow-2xl ring-4 ring-white/10 relative z-10 border border-white/20">
+                    <Image
+                      src="/byom.jpg"
+                      alt="Byom Nath Jha - Fullstack Engineer"
+                      width={400}
+                      height={500}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                </motion.div>
+              </div>
+
+              {/* Right Column - Title & Description */}
+              <div className="md:col-span-4 flex flex-col justify-center min-w-0">
+                <motion.div variants={itemVariants} className="space-y-4 md:space-y-6 text-center md:text-left w-full">
+                  <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5rem] font-black text-white drop-shadow-2xl leading-tight md:leading-[0.9] tracking-tight w-full">
+                    ENGINEER
+                  </h1>
+                  <p className="text-sm md:text-lg text-white/90 drop-shadow-lg leading-relaxed max-w-sm mx-auto md:mx-0">
+                    I'm an India-based fullstack engineer crafting beautiful, performant web experiences.
+                  </p>
+                  <motion.a
+                    variants={itemVariants}
+                    href="/resume.pdf"
+                    download="Byom_Nath_Jha_Resume.pdf"
+                    className="inline-flex items-center justify-center w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-blue-500 bg-white hover:bg-gray-100 transition-colors duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                    Download Resume
+                  </motion.a>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
+
       </div>
-
-      {/* Decorative Elements */}
-      <motion.div 
-        className="absolute top-1/4 right-[10%] w-2 h-2 bg-blue-500 rounded-full"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-      ></motion.div>
-      <motion.div 
-        className="absolute bottom-[20%] left-[15%] w-12 h-12 border-2 border-gray-400 rounded-lg rotate-12"
-        initial={{ scale: 0, rotate: 0 }}
-        animate={{ scale: 1, rotate: 12, opacity: 0.5 }}
-        transition={{ delay: 1.8, duration: 0.6 }}
-      ></motion.div>
-
     </section>
   );
 }
