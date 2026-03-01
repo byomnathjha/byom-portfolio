@@ -3,179 +3,148 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import { Phone, Mail, Globe } from 'lucide-react';
+import { Phone, Mail, Globe, ArrowUpRight } from 'lucide-react';
 
 const About = () => {
-  // Explicitly typing variants for better type safety in TypeScript
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
-      transition: {
-        staggerChildren: 0.2,
-      }
+      transition: { staggerChildren: 0.1 }
     },
   };
 
-  // Explicitly typing variants for better type safety in TypeScript
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      transition: { 
-        duration: 0.8, 
-        ease: 'easeOut' 
-      } 
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } 
     },
   };
 
   return (
-    <section className="relative py-24 md:py-32 px-4 sm:px-6 font-sans text-gray-900" id="about">
-      {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl mx-auto flex items-center justify-center -z-10">
-        <div className="w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-blob absolute"></div>
-        <div className="w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-blob-2 absolute"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left Content with Animations */}
+    <section className="relative py-24 md:py-32 px-4 sm:px-6 font-sans text-gray-900 bg-white" id="about">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+        
+        {/* Left Content */}
         <motion.div 
-          className="space-y-12"
+          className="space-y-12 lg:col-span-7 pr-0 lg:pr-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, margin: "-100px" }}
         >
           {/* Header */}
           <div className="space-y-6">
             <motion.h2 
-              className="text-5xl lg:text-6xl font-black text-gray-900 leading-tight"
+              className="text-5xl lg:text-6xl font-black text-gray-900 leading-tight tracking-tight"
               variants={itemVariants}
             >
               ABOUT ME
             </motion.h2>
             <motion.p 
-              className="text-lg text-gray-600 leading-relaxed max-w-lg"
+              className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl font-light"
               variants={itemVariants}
             >
-              Hi, I'm Byom Nath — a fullstack engineer with a passion for building scalable, secure, and user-centric applications. My journey is about transforming complex problems into simple, efficient, and impactful digital solutions — from intuitive frontends to robust backends.
+              Hi, I'm <strong className="font-semibold text-gray-900">Byom Nath</strong> — an India-based fullstack engineer with a passion for building scalable, secure, and user-centric applications. My journey is about transforming complex problems into simple, efficient, and impactful digital solutions.
             </motion.p>
           </div>
 
-          {/* Stats Grid */}
+          {/* Minimal Stats */}
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-3 gap-8"
+            className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-4 border-t border-gray-100"
             variants={containerVariants}
           >
-            <motion.div variants={itemVariants}>
-              <div className="text-4xl lg:text-5xl font-bold text-blue-500 mb-2">
-                2+
-              </div>
-              <div className="text-gray-700 font-medium text-sm md:text-base">
-                Years of Experience
-              </div>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <div className="text-4xl lg:text-5xl font-bold text-blue-500 mb-2">
-                20+
-              </div>
-              <div className="text-gray-700 font-medium text-sm md:text-base">
-                Completed Projects
-              </div>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <div className="text-4xl lg:text-5xl font-bold text-blue-500 mb-2">
-                10+
-              </div>
-              <div className="text-gray-700 font-medium text-sm md:text-base">
-                Clients Worldwide
-              </div>
-            </motion.div>
+            {[
+              { num: "2+", label: "Years Experience" },
+              { num: "20+", label: "Projects Shipped" },
+              { num: "10+", label: "Global Clients" }
+            ].map((stat, i) => (
+              <motion.div key={i} variants={itemVariants}>
+                <div className="text-4xl font-black text-gray-900 tracking-tighter mb-1">
+                  {stat.num}
+                </div>
+                <div className="text-gray-500 font-medium text-sm tracking-wide">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
 
-          {/* Contact Info and Socials */}
+          {/* Clean Contact & Socials */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-10 pt-4"
             variants={containerVariants}
           >
-            <motion.div variants={itemVariants}>
-              <div className="text-gray-900 font-semibold mb-1">Let's Connect</div>
-              <a href="mailto:byomnathjha@gmail.com" className="text-gray-600 flex items-center gap-2 transition-colors hover:text-blue-500">
-                <Mail size={16} />
-                byomnathjha@gmail.com
+            <motion.div variants={itemVariants} className="space-y-3">
+              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contact</div>
+              <a href="mailto:byomnathjha@gmail.com" className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors">
+                <Mail size={18} strokeWidth={1.5} />
+                <span className="text-sm font-medium">byomnathjha@gmail.com</span>
               </a>
-              <a href="tel:+916264077137" className="text-gray-600 flex items-center gap-2 mt-2 transition-colors hover:text-blue-500">
-                <Phone size={16} />
-                +91 6264077137
+              <a href="tel:+916264077137" className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors">
+                <Phone size={18} strokeWidth={1.5} />
+                <span className="text-sm font-medium">+91 6264077137</span>
               </a>
             </motion.div>
             
-            <motion.div variants={itemVariants}>
-              <div className="text-gray-900 font-semibold mb-1">Follow Me</div>
-              <div className="flex gap-2">
-                <a href="#" aria-label="X profile" className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                  <span className="font-bold text-lg text-gray-700">𝕏</span>
-                </a>
-                <a href="#" aria-label="Instagram profile" className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                  <span className="font-bold text-lg text-gray-700">IG</span>
-                </a>
-                <a href="#" aria-label="Behance profile" className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                  <span className="font-bold text-lg text-gray-700">BE</span>
-                </a>
-                <a href="#" aria-label="Portfolio link" className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                  <Globe size={18} className="text-gray-700" />
-                </a>
+            <motion.div variants={itemVariants} className="space-y-3">
+              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Socials</div>
+              <div className="flex gap-4">
+                {[
+                  { icon: "𝕏", label: "X" },
+                  { icon: "IG", label: "Instagram" },
+                  { icon: "BE", label: "Behance" },
+                  { icon: <Globe size={18} strokeWidth={1.5} />, label: "Portfolio" }
+                ].map((social, i) => (
+                  <a 
+                    key={i}
+                    href="#" 
+                    aria-label={social.label}
+                    className="w-10 h-10 border border-gray-200 hover:border-gray-900 rounded-full flex items-center justify-center transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  >
+                    <span className="font-medium text-sm flex items-center justify-center">
+                      {social.icon}
+                    </span>
+                  </a>
+                ))}
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Call to action button */}
-          <motion.div variants={itemVariants}>
+          {/* Button */}
+          <motion.div variants={itemVariants} className="pt-6">
             <a 
               href="#story" 
-              className="inline-block px-8 py-4 bg-gray-900 text-white hover:bg-gray-700 rounded-full font-medium transition-colors duration-300 transform hover:scale-105"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-full text-sm font-semibold tracking-wide transition-transform hover:scale-105 active:scale-95"
             >
               EXPLORE MY WORK
+              <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Right Image with interactive elements */}
+        {/* Right Content - Clean Image Reveal */}
         <motion.div 
-          className="relative order-first lg:order-last"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="relative lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none"
+          initial={{ opacity: 0, filter: "blur(10px)", scale: 0.95 }}
+          whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="relative bg-gray-200 rounded-3xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
+          <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden bg-gray-100">
             <Image
               src="/widescreen.jpg"
               alt="Byom Nath Jha - Fullstack Engineer"
-              width={500}
-              height={667}
-              quality={90}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              className="w-full h-full object-cover"
+              className="object-cover"
             />
           </div>
-          
-          {/* Animated decorative element */}
-          <motion.div 
-            className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-blue-500 rounded-full opacity-10"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              rotate: [0, 90, 180] 
-            }}
-            transition={{ 
-              duration: 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          ></motion.div>
         </motion.div>
+
       </div>
     </section>
   );
