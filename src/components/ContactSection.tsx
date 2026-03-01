@@ -68,7 +68,7 @@ const ContactSection = () => {
               LET'S CREATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">SOMETHING GREAT</span> TOGETHER.
             </h2>
             <p className="text-base md:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Ready to turn your vision into a reality? Get in touch and let's discuss your project, big or small. I'm excited to hear your ideas.
+              Ready to turn your vision into a reality? Get in touch and let's discuss your project. I'm excited to hear your ideas.
             </p>
           </div>
 
