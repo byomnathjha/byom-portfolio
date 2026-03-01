@@ -58,7 +58,7 @@ const About = () => {
           >
             {[
               { num: "2+", label: "Years Experience" },
-              { num: "20+", label: "Projects Shipped" },
+              { num: "20+", label: "Projects" },
               { num: "10+", label: "Global Clients" }
             ].map((stat, i) => (
               <motion.div key={i} variants={itemVariants}>
