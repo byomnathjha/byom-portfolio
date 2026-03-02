@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 // Simple brand showcase (only worked-with brands)
 const brands = [
-  { name: 'Dusala India', logo: '/dusala-logo.png', website: 'https://dusala.com' },
+  { name: 'Dusala India', logo: '/dusala-logo.png', website: 'https://dusala.in' },
   { name: 'Scraperr', logo: '/scraperr-logo.png', website: 'https://scraperr.cloud' },
   { name: 'CrowHub', logo: '/crowhub-logo.png', website: 'https://crowhub.in' },
   { name: 'Edulyt India', logo: '/edulyt-logo.png', website: '#' },

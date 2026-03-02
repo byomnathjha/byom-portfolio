@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import { Phone, Mail, Globe, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Linkedin } from 'lucide-react';
 
 const About = () => {
   const containerVariants: Variants = {
@@ -72,35 +72,20 @@ const About = () => {
             ))}
           </motion.div>
 
-          {/* Clean Contact & Socials */}
+          {/* Clean Socials */}
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 gap-10 pt-4"
+            className="pt-4"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants} className="space-y-3">
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contact</div>
-              <a href="mailto:byomnathjha@gmail.com" className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors">
-                <Mail size={18} strokeWidth={1.5} />
-                <span className="text-sm font-medium">byomnathjha@gmail.com</span>
-              </a>
-              <a href="tel:+916264077137" className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors">
-                <Phone size={18} strokeWidth={1.5} />
-                <span className="text-sm font-medium">+91 6264077137</span>
-              </a>
-            </motion.div>
-            
-            <motion.div variants={itemVariants} className="space-y-3">
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Socials</div>
+              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Connect</div>
               <div className="flex gap-4">
                 {[
-                  { icon: "𝕏", label: "X" },
-                  { icon: "IG", label: "Instagram" },
-                  { icon: "BE", label: "Behance" },
-                  { icon: <Globe size={18} strokeWidth={1.5} />, label: "Portfolio" }
+                  { icon: <Linkedin size={18} strokeWidth={1.5} />, label: "LinkedIn", href: "#" }
                 ].map((social, i) => (
                   <a 
                     key={i}
-                    href="#" 
+                    href={social.href} 
                     aria-label={social.label}
                     className="w-10 h-10 border border-gray-200 hover:border-gray-900 rounded-full flex items-center justify-center transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   >
